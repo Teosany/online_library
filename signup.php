@@ -42,7 +42,7 @@ if (TRUE === isset($_POST['enrgister'])) {
     } else {
         $ressourceLue = file('readerid.txt');
         $ressourceIncr = ++$ressourceLue[0];
-        $ressource = fopen('readerid.txt', 'c+b');
+        $ressource = fopen('readerid.txt', 'c+');
         fwrite($ressource, $ressourceIncr);
         fclose($ressource);
 
@@ -105,13 +105,19 @@ if (TRUE === isset($_POST['enrgister'])) {
 <?php include('includes/header.php'); ?>
 
 <div id="succes" class="alert alert-success d-none" role="alert">Succes! votre
-    identifiant: <?php echo $ressourceIncr; ?></div>
+    identifiant: <?php if (TRUE === isset($_POST['enrgister'])) {
+        if ($_POST['vercode'] != $_SESSION['vercode']) {
+            echo "<script>alert('Code de vérification est incorrect')</script>";
+        } else {
+            echo $ressourceIncr;
+        }
+    } ?></div>
 <div id="insucces" class="alert alert-danger d-none" role="alert">Insucces!</div>
 <div class="container">
     <div class="row">
         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-8 offset-md-3">
             <div class="mb-3 mt-3">
-                    <h3>CREER UN COMPTE</h3>
+                <h3>CREER UN COMPTE</h3>
             </div>
             <hr>
         </div>

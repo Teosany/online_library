@@ -1,33 +1,26 @@
 <?php
 // On récupère la session courante
-
 // On inclue le fichier de configuration et de connexion à la base de données
 // Après la soumission du formulaire de login ($_POST['change'] existe
 // On verifie si le code captcha est correct en comparant ce que l'utilisateur a saisi dans le formulaire
 // $_POST["vercode"] et la valeur initialisee $_SESSION["vercode"] lors de l'appel a captcha.php (voir plus bas)
-
 // Si le code est incorrect on informe l'utilisateur par une fenetre pop_up
-
 // Sinon on continue
 // on recupere l'email et le numero de portable saisi par l'utilisateur
 // et le nouveau mot de passe que l'on encode (fonction password_hash)
-
 // On cherche en base le lecteur avec cet email et ce numero de tel dans la table tblreaders
-
 // Si le resultat de recherche n'est pas vide
 // On met a jour la table tblreaders avec le nouveau mot de passe
 // On informa l'utilisateur par une fenetre popup de la reussite ou de l'echec de l'operation
 //        $sql = "INSERT INTO tblreaders (ReaderId, FullName, EmailId, MobileNumber, Password, Status)
 //        VALUES ('$ressourceIncr', :name, :email, :tel, '$password', '$status')";
-//
 //        $query = $dbh->prepare($sql);
 //        $query->bindParam(':name', $name, PDO::PARAM_STR);
 //        $query->bindParam(':email', $email, PDO::PARAM_STR);
 //        $query->bindParam(':tel', $tel, PDO::PARAM_INT);
-//
 //        $query->execute() or die(print_r($dbh->errorInfo(), true));
-//
 //        $last_id = $dbh->lastInsertId();
+
 global $dbh;
 session_start();
 include('includes/config.php');

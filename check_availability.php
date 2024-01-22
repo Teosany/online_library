@@ -27,16 +27,15 @@ if (isset($_GET)) {
 
         $emailQuery = $query->fetch();
 
-        // todo спроси почему $emailQuery имеет два поля - ноль и значение.
-
         if ($emailQuery != '') {
-            echo('Un compte avec cette adresse e-mail déjà existe.');
+            echo '{"rep" : "Un compte avec cette adresse e-mail déjà existe!"}';
+        } else {
+            echo '{"rep" : ""}';
         }
     } else {
-        echo("Vous devez saisir votre adresse e-mail");
+        echo '{"rep" : "Vous devez saisir votre adresse e-mail!"}';
         exit();
     }
 } else {
-    echo 'Error';
+    echo '{"rep" : "Error!"}';
 }
-

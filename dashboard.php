@@ -1,34 +1,37 @@
 <?php
 // On recupere la session courante
+// On inclue le fichier de configuration et de connexion a la base de donn�es
+// Si l'utilisateur est déconnecté
+// L'utilisateur est renvoyé vers la page de login : index.php
+// On récupère l'identifiant du lecteur dans le tableau $_SESSION
+// On veut savoir combien de livres ce lecteur a emprunte
+// On construit la requete permettant de le savoir a partir de la table tblissuedbookdetails
+// On stocke le résultat dans une variable
+// On veut savoir combien de livres ce lecteur n'a pas rendu
+// On construit la requete qui permet de compter combien de livres sont associ�s � ce lecteur avec le ReturnStatus � 0
+// On stocke le résultat dans une variable
+//     On affiche le titre de la page : Tableau de bord utilisateur-->
+//     On affiche la carte des livres emprunt�s par le lecteur-->
+//     On affiche la carte des livres non rendus le lecteur-->
+//    <!--On inclue ici le menu de navigation includes/header.php-->
+
 global $dbh;
 session_start();
 
-// On inclue le fichier de configuration et de connexion a la base de donn�es
 include('includes/config.php');
 
 if (strlen($_SESSION['rdid']) == 0) {
-    // Si l'utilisateur est déconnecté
-    // L'utilisateur est renvoyé vers la page de login : index.php
-
     header('location:index.php');
 } else {
-    // On récupère l'identifiant du lecteur dans le tableau $_SESSION
     $user = $_SESSION['rdid'];
 
-    // On veut savoir combien de livres ce lecteur a emprunte
-    // On construit la requete permettant de le savoir a partir de la table tblissuedbookdetails
     $sql = "SELECT * FROM tblissuedbookdetails WHERE ReaderID = :user";
     $query = $dbh->prepare($sql);
     $query->bindParam(':user', $user, PDO::PARAM_STR);
     $query->execute();
     $results = $query->fetchAll(PDO::FETCH_OBJ);
 
-    // On stocke le résultat dans une variable
     $quantity = count($results);
-
-    // On veut savoir combien de livres ce lecteur n'a pas rendu
-    // On construit la requete qui permet de compter combien de livres sont associ�s � ce lecteur avec le ReturnStatus � 0
-    // On stocke le résultat dans une variable
 
     $i = 0;
     foreach ($results as $result) {
@@ -37,10 +40,6 @@ if (strlen($_SESSION['rdid']) == 0) {
         }
     }
     $nonrendu = $i;
-
-//    <!-- On affiche le titre de la page : Tableau de bord utilisateur-->
-//    <!-- On affiche la carte des livres emprunt�s par le lecteur-->
-//    <!-- On affiche la carte des livres non rendus le lecteur-->
     ?>
 
     <!DOCTYPE html>
@@ -60,7 +59,6 @@ if (strlen($_SESSION['rdid']) == 0) {
 
     <body class="d-flex flex-column min-vh-100">
 
-    <!--On inclue ici le menu de navigation includes/header.php-->
     <?php include('includes/header.php'); ?>
     <div class="container">
         <div class="row">
@@ -80,14 +78,14 @@ if (strlen($_SESSION['rdid']) == 0) {
                         <button class="nav-link active" id="home-tab" data-bs-toggle="tab"
                                 data-bs-target="#home-tab-pane"
                                 type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Livres
-                            empruntés   <span class="badge bg-secondary"><?php echo $quantity; ?></span>
+                            empruntés <span class="badge bg-secondary"><?php echo $quantity; ?></span>
                         </button>
                     </li>
                     <li class="nav-item">
                         <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
                                 data-bs-target="#profile-tab-pane"
                                 type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="true">Livres
-                            non encore rendus   <span class="badge bg-danger"><?php echo $nonrendu; ?></span>
+                            non encore rendus <span class="badge bg-danger"><?php echo $nonrendu; ?></span>
                         </button>
                     </li>
                 </ul>
@@ -96,18 +94,18 @@ if (strlen($_SESSION['rdid']) == 0) {
                 <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab"
                      tabindex="0">
                     <p></p>
-                    <?php foreach ($results as $result) :?>
-                    <p class="h5"><?php echo $result->BookId?></p>
-                    <?php endforeach;?>
+                    <?php foreach ($results as $result) : ?>
+                        <p class="h5"><?php echo $result->BookId ?></p>
+                    <?php endforeach; ?>
                 </div>
                 <div class="tab-pane fade active" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab"
                      tabindex="1">
                     <p></p>
-                    <?php foreach ($results as $result) :?>
+                    <?php foreach ($results as $result) : ?>
                         <p class="h5"><?php if ($result->ReturnStatus === 0) :
-                            echo $result->BookId;
-                            endif?></p>
-                    <?php endforeach;?>
+                                echo $result->BookId;
+                            endif ?></p>
+                    <?php endforeach; ?>
                 </div>
             </div>
         </div>

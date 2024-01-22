@@ -17,13 +17,13 @@ async function checkAvailability(email) {
         method: 'GET'
     }).then(function (response) {
         if (response.status >= 200 && response.status < 300) {
-            return response.text()
+            return response.json()
         }
         throw new Error(response.statusText)
     })
-        .then(function (response) {
-            document.getElementById('error').innerHTML = response
-            if (response.length > 10) {
+        .then(function (data) {
+            document.getElementById('error').innerHTML = data.rep
+            if (data.rep.length > 15) {
                 $("#button").addClass("disabled").attr("disabled", true);
             } else {
                 $("#button").removeClass("disabled").attr("disabled", false);

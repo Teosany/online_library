@@ -70,7 +70,7 @@ if (TRUE === isset($_POST['login'])) {
     <link href="assets/css/style.css" rel="stylesheet"/>
 </head>
 
-<body>
+<body class="d-flex flex-column min-vh-100">
 <!--On inclue ici le menu de navigation includes/header.php-->
 <?php include('includes/header.php'); ?>
 <div class="container">

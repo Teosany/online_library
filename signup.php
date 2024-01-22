@@ -101,7 +101,7 @@ if (TRUE === isset($_POST['enrgister'])) {
     <script type="text/javascript" src="script.js"></script>
 </head>
 
-<body>
+<body class="d-flex flex-column min-vh-100">
 <?php include('includes/header.php'); ?>
 
 <div id="succes" class="alert alert-success d-none" role="alert">Succes! votre

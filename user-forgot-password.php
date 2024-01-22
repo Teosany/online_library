@@ -80,7 +80,7 @@ if (TRUE === isset($_POST['change'])) {
             crossorigin="anonymous"defer></script>    <script type="text/javascript" src="script.js"></script>
 </head>
 
-<body>
+<body class="d-flex flex-column min-vh-100">
 <!--On inclue ici le menu de navigation includes/header.php-->
 <?php include('includes/header.php'); ?>
 <!-- On insere le titre de la page (RECUPERATION MOT DE PASSE -->

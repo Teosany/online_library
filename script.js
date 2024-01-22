@@ -42,3 +42,26 @@ function insucces() {
 let init = function () {
     succes();
 }
+
+$('.blurControl').on("blur", function () {
+    ajax(this.name, this.value)
+});
+
+function ajax(nameVar, value) {
+    let updateTime = document.getElementById('disabledTextInput1')
+    // let succes = document.getElementById('succes')
+
+    $.ajax({
+        type: 'POST',
+        url: 'my-profile.php',
+        data: {name: nameVar, data: value}
+    }).done(function (msg) {
+        if (msg.length > 5) {
+            updateTime.placeholder = msg;
+            let succes = $("#succes")
+            succes.removeClass("d-none")
+            setTimeout(function() {
+                succes.addClass("d-none")}, 2000)
+        }
+    })
+}

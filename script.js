@@ -33,23 +33,24 @@ async function checkAvailability(email) {
 
 function succes() {
     $("#succes").removeClass("d-none")
+    setTimeout(function () {
+        $("#succes").addClass("d-none")
+    }, 2000)
 }
-
 function insucces() {
     $("#insucces").removeClass("d-none")
-}
-
-let init = function () {
-    succes();
+    setTimeout(function () {
+        $("#insucces").addClass("d-none")
+    }, 2000)
 }
 
 $('.blurControl').on("blur", function () {
     ajax(this.name, this.value)
 });
 
+
 function ajax(nameVar, value) {
     let updateTime = document.getElementById('disabledTextInput1')
-    // let succes = document.getElementById('succes')
 
     $.ajax({
         type: 'POST',

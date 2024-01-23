@@ -42,6 +42,7 @@ if (strlen($_SESSION['rdid']) == 0) {
     $query = $dbh->prepare($sql);
     $query->bindParam(':user', $user, PDO::PARAM_STR);
     $query->execute();
+
     $results = $query->fetch(PDO::FETCH_OBJ);
 
     if (isset($_POST['name']) && isset($_POST['data'])) {
@@ -72,9 +73,8 @@ if (strlen($_SESSION['rdid']) == 0) {
             $query->bindParam(':user', $user, PDO::PARAM_STR);
             $query->bindParam(':data', $data);
             $query->execute();
-//            echo("Champ " . $nameVar . ' has been updated with new content: "' . $data . '"');
 
-            $sql = $dbh->query("SELECT UpdateDate FROM tblreaders WHERE ReaderId = '$user'");
+            $sql = $dbh->query("SELECT updateDate FROM tblreaders WHERE ReaderId = '$user'");
             $updateTime = $sql->fetch();
 
             echo $updateTime[0];

@@ -1,6 +1,5 @@
-<?php if (isset($_SESSION['login'])) { ?>
-
-    <nav class="navbar navbar-dark bg-dark">
+<?php if (isset($_SESSION['login'])) : ?>
+    <nav class="navbar navbar-dark navbar-expand-lg bg-dark">
         <div class="container-fluid">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -28,7 +27,7 @@
             </div>
         </div>
     </nav>
-<?php } else { ?>
+<?php ; else : ?>
     <nav class="navbar navbar-dark navbar-expand-lg bg-dark">
         <div class="container-fluid">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -51,6 +50,4 @@
             </div>
         </div>
     </nav>
-<?php } ?>
-
-
+<?php endif ?>

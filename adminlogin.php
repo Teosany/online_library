@@ -21,7 +21,7 @@ session_start();
 
 include('includes/config.php');
 
-if (isset($_SESSION['login']) && $_SESSION['login'] != '') {
+if (isset($_SESSION['alogin']) && $_SESSION['alogin'] != '') {
     $_SESSION['alogin'] = '';
 }
 
@@ -37,9 +37,9 @@ if (TRUE === isset($_POST['alogin'])) {
         $result = $query->fetch(PDO::FETCH_OBJ);
 
         if (!empty($result) && password_verify($_POST['password'], $result->Password)) {
-            $_SESSION['login'] = $_POST['emailid'];
+            $_SESSION['alogin'] = $_POST['emailid'];
 
-            header('location:dashboard.php');
+            header('location:admin/dashboard.php');
         } else {
             echo "<script>alert('Utilisateur inconnu')</script>";
         }

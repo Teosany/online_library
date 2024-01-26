@@ -63,7 +63,7 @@ if (TRUE === isset($_POST['login'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
     <title>Gestion de bibliotheque en ligne</title>
     <!-- BOOTSTRAP CORE STYLE  -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- FONT AWESOME STYLE  -->
     <link href="assets/css/font-awesome.css" rel="stylesheet"/>
     <!-- CUSTOM STYLE  -->

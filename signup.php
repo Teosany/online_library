@@ -84,7 +84,7 @@ if (TRUE === isset($_POST['enrgister'])) {
     <![endif]-->
     <title>Gestion de bibliotheque en ligne | Signup</title>
     <!-- BOOTSTRAP CORE STYLE  -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- FONT AWESOME STYLE  -->
     <link href="assets/css/font-awesome.css" rel="stylesheet"/>
     <!-- CUSTOM STYLE  -->
@@ -103,7 +103,6 @@ if (TRUE === isset($_POST['enrgister'])) {
 
 <body class="d-flex flex-column min-vh-100">
 <?php include('includes/header.php'); ?>
-
 <div id="succes" class="alert alert-success d-none" role="alert">Succes! votre
     identifiant: <?php if (TRUE === isset($_POST['enrgister'])) {
         if ($_POST['vercode'] != $_SESSION['vercode']) {

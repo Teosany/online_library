@@ -95,7 +95,7 @@ if (strlen($_SESSION['rdid']) == 0) {
 
     <title>Gestion de bibliotheque en ligne | Profil</title>
     <!-- BOOTSTRAP CORE STYLE  -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- FONT AWESOME STYLE  -->
     <link href="assets/css/font-awesome.css" rel="stylesheet"/>
     <!-- CUSTOM STYLE  -->
@@ -141,8 +141,8 @@ if (strlen($_SESSION['rdid']) == 0) {
                            placeholder="<?php if ($results->Status != 0) : echo 'Active member'; endif; ?>">
                 </div>
                 <div class="mb-3">
-                    <label for="name" class="form-label">Le nom complet</label>
-                    <input type="text" class="form-control blurControl" id="disabledTextInput" name="name" required
+                    <label for="TextInput" class="form-label">Le nom complet</label>
+                    <input type="text" class="form-control blurControl" id="TextInput" name="name" required
                            value="<?php echo $results->FullName; ?>">
                 </div>
                 <div class="mb-3">

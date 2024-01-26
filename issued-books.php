@@ -7,6 +7,10 @@
 //On recupere l'identifiant du livre
 // On supprime le livre en base
 // On redirige l'utilisateur vers issued-book.php
+//    <!--On insere ici le menu de navigation T-->
+//    <!-- On affiche le titre de la page : LIVRES SORTIS -->
+//    <!-- On affiche la liste des sorties contenus dans $results sous la forme d'un tableau -->
+//    <!-- Si il n'y a pas de date de retour, on affiche non retourne -->
 
 global $dbh;
 session_start();
@@ -18,7 +22,8 @@ if (strlen($_SESSION['rdid']) == 0) {
 } else {
     $user = $_SESSION['rdid'];
 
-    $sql = "SELECT ReaderID, BookId, BookName, IssuesDate, ReturnDate FROM tblissuedbookdetails JOIN tblbooks ON BookId = ISBNNumber WHERE ReaderID = :user";
+    $sql = "SELECT ReaderID, BookId, BookName, IssuesDate, ReturnDate FROM tblissuedbookdetails
+    JOIN tblbooks ON BookId = ISBNNumber WHERE ReaderID = :user";
     $query = $dbh->prepare($sql);
     $query->bindParam(':user', $user, PDO::PARAM_STR);
     $query->execute();
@@ -27,7 +32,6 @@ if (strlen($_SESSION['rdid']) == 0) {
 
     foreach ($results as $result) {
         if ($result->ReturnDate == '') {
-//        $nonReturn =
             error_log('234');
         }
     }
@@ -42,7 +46,7 @@ if (strlen($_SESSION['rdid']) == 0) {
 
         <title>Gestion de bibliotheque en ligne | Gestion des livres</title>
         <!-- BOOTSTRAP CORE STYLE  -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
         <!-- FONT AWESOME STYLE  -->
         <link href="assets/css/font-awesome.css" rel="stylesheet"/>
         <!-- CUSTOM STYLE  -->
@@ -50,10 +54,6 @@ if (strlen($_SESSION['rdid']) == 0) {
     </head>
 
     <body class="d-flex flex-column min-vh-100">
-    <!--On insere ici le menu de navigation T-->
-    <!-- On affiche le titre de la page : LIVRES SORTIS -->
-    <!-- On affiche la liste des sorties contenus dans $results sous la forme d'un tableau -->
-    <!-- Si il n'y a pas de date de retour, on affiche non retourne -->
     <?php include('includes/header.php'); ?>
     <div class="container">
         <div class="row">

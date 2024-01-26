@@ -219,3 +219,8 @@ height: 60px;
         color:#000;
     }
 
+.edit:before {
+    content: "\f044";
+    font-family: FontAwesome;
+    color: #000000;
+}

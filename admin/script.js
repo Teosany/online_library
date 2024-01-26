@@ -1,4 +1,4 @@
-function valid() {
+function valid(){
     let password = document.getElementById('password').value;
     let passwordConf = document.getElementById('passwordConf').value;
     if (password === passwordConf) {
@@ -65,4 +65,24 @@ function ajax(nameVar, value) {
                 succes.addClass("d-none")}, 2000)
         }
     })
+}
+
+function getContent(int){
+    document.getElementById("my-textarea"+int).value = document.getElementById("titre"+int).innerText;
+}
+
+function preventDef(event) {
+    /* Any Shortcut except Ctrl + V */
+    const isValidShortcut = (event.ctrlKey && event.keyCode != 86 );
+
+    /* Backspace - Delete - Arrow Keys - Ctrl - Shift */
+    const isValidKeyCode = [8, 16, 17, 37, 38, 39, 40, 46].includes(event.keyCode);
+
+    const maxLength = 20;
+
+    const text = event.target.innerText;
+
+    if ( text.length >= maxLength && !isValidKeyCode && !isValidShortcut ) {
+        event.preventDefault();
+    }
 }

@@ -1,4 +1,12 @@
 <?php
+// Si l'utilisateur n'est plus logué
+// On le redirige vers la page de login
+// Sinon on peut continuer. Après soumission du formulaire de creation
+// On recupere le nom et le statut de la categorie
+// On prepare la requete d'insertion dans la table tblcategory
+// On execute la requete
+// On stocke dans $_SESSION le message correspondant au resultat de loperation
+
 global $dbh;
 session_start();
 
@@ -20,20 +28,9 @@ if (strlen($_SESSION['alogin']) == 0) {
 
         $query = $dbh->query($sql);
 
-        if ($query === false) {
-            $_SESSION['addCategory'] = "Error: " . $dbh->error;
-        } else {
-            $_SESSION['addCategory'] = "Done";
-        }
-        error_log($_SESSION['addCategory']);
+        succesOrNot();
+        header('location:add-category.php');
     }
-// Si l'utilisateur n'est plus logué
-// On le redirige vers la page de login
-// Sinon on peut continuer. Après soumission du formulaire de creation
-// On recupere le nom et le statut de la categorie
-// On prepare la requete d'insertion dans la table tblcategory
-// On execute la requete
-// On stocke dans $_SESSION le message correspondant au resultat de loperation
     ?>
 
     <!DOCTYPE html>
@@ -54,6 +51,8 @@ if (strlen($_SESSION['alogin']) == 0) {
 
     <body class="d-flex flex-column min-vh-100">
     <?php include('includes/header.php'); ?>
+    <div id="succes" class="alert alert-success d-none" role="alert">Succes!</div>
+    <div id="insucces" class="alert alert-danger d-none" role="alert">Insucces!</div>
     <div class="container">
         <div class="row">
             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-8 offset-md-3">
@@ -69,7 +68,7 @@ if (strlen($_SESSION['alogin']) == 0) {
                 <form method="post" action="add-category.php">
                     <div class="mb-4">
                         <label for="inputText" class="form-label"><h5>Nom</h5></label>
-                        <input type="text" class="form-control" name="name" id="inputText" aria-describedby="emailHelp">
+                        <input type="text" class="form-control" name="name" id="inputText" aria-describedby="emailHelp" required>
                     </div>
                     <div class="mb-3">
                         <h5>Statut</h5>
@@ -82,7 +81,8 @@ if (strlen($_SESSION['alogin']) == 0) {
                         </label>
                     </div>
                     <div class="mb-3 form-check">
-                        <input class="form-check-input" type="radio" name="status" id="flexRadioDefault2" value="inactive">
+                        <input class="form-check-input" type="radio" name="status" id="flexRadioDefault2"
+                               value="inactive">
                         <label class="form-check-label" for="flexRadioDefault2">
                             Inactive
                         </label>
@@ -94,16 +94,13 @@ if (strlen($_SESSION['alogin']) == 0) {
 
     </div>
     <?php include('includes/footer.php'); ?>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js" defer></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script type="text/javascript" src="script.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
-            integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
-            crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
             integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
             crossorigin="anonymous"></script>
     </body>
 
     </html>
-<?php } ?>
+    <?php verifSucces();
+} ?>

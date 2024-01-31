@@ -1,4 +1,4 @@
-function valid(){
+function valid() {
     let password = document.getElementById('password').value;
     let passwordConf = document.getElementById('passwordConf').value;
     if (password === passwordConf) {
@@ -31,12 +31,58 @@ async function checkAvailability(email) {
         })
 }
 
+async function checkId(id) {
+    if (id !== '') {
+        $.ajax({
+            type: 'POST',
+            url: 'get_reader.php',
+            data: {id: id}
+        }).done(function (msg) {
+            messageMsg('#messageId', msg, 'Utilisateur introuvable')
+        })
+    } else {
+        $(messageId).addClass("d-none")
+    }
+}
+
+async function checkIsbn(isbn) {
+    if (isbn !== '') {
+        $.ajax({
+            type: 'POST',
+            url: 'get_reader.php',
+            data: {isbn: isbn}
+        }).done(function (msg) {
+            messageMsg('#messageIsbn', msg, 'ISBN introuvable')
+        })
+    } else {
+        $(messageIsbn).addClass("d-none")
+    }
+}
+
+function messageMsg(messageId, msg, error) {
+    console.log(msg)
+    if (msg !== '0') {
+        $(messageId).removeClass("d-none alert-danger")
+        $(messageId).addClass("alert-primary")
+        $(messageId).text(msg)
+
+        $("#button").removeClass("disabled").attr("disabled", false);
+    } else {
+        $(messageId).removeClass("d-none alert-primary")
+        $(messageId).addClass("alert-danger")
+        $(messageId).text(error)
+
+        $("#button").addClass("disabled").attr("disabled", true);
+    }
+}
+
 function succes() {
     $("#succes").removeClass("d-none")
     setTimeout(function () {
         $("#succes").addClass("d-none")
     }, 2000)
 }
+
 function insucces() {
     $("#insucces").removeClass("d-none")
     setTimeout(function () {
@@ -61,28 +107,31 @@ function ajax(nameVar, value) {
             updateTime.placeholder = msg;
             let succes = $("#succes")
             succes.removeClass("d-none")
-            setTimeout(function() {
-                succes.addClass("d-none")}, 2000)
+            setTimeout(function () {
+                succes.addClass("d-none")
+            }, 2000)
         }
     })
 }
 
-function getContent(int){
-    document.getElementById("my-textarea"+int).value = document.getElementById("titre"+int).innerText;
+function getContent(int) {
+    document.getElementById("my-textarea" + int).value = document.getElementById("titre" + int).innerText;
+    document.getElementById("my-textarea_1" + int).value = document.getElementById("titre_1" + int).innerText;
+    document.getElementById("my-textarea_2" + int).value = document.getElementById("titre_2" + int).innerText;
 }
 
-function preventDef(event) {
+function preventDef(event, maxLength) {
     /* Any Shortcut except Ctrl + V */
-    const isValidShortcut = (event.ctrlKey && event.keyCode != 86 );
-
+    const isValidShortcut = (event.ctrlKey && event.keyCode != 86);
     /* Backspace - Delete - Arrow Keys - Ctrl - Shift */
     const isValidKeyCode = [8, 16, 17, 37, 38, 39, 40, 46].includes(event.keyCode);
-
-    const maxLength = 20;
-
     const text = event.target.innerText;
-
-    if ( text.length >= maxLength && !isValidKeyCode && !isValidShortcut ) {
+    if (text.length >= maxLength && !isValidKeyCode && !isValidShortcut) {
         event.preventDefault();
     }
 }
+
+$('.onlyInt').keypress(function (e) {
+    var x = event.charCode || event.keyCode;
+    if (isNaN(String.fromCharCode(e.which)) && x != 45 && x != 46 || x === 32 || x === 13 || (x === 46 && event.currentTarget.innerText.includes('.'))) e.preventDefault();
+});

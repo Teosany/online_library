@@ -7,8 +7,8 @@ include('includes/config.php');
 if (strlen($_SESSION['alogin']) == 0) {
     header('location:../index.php');
 } else {
-    $sql = "SELECT CategoryName, id FROM tblcategory";
-    $sql1 = "SELECT AuthorName, id FROM tblauthors";
+    $sql = "SELECT CategoryName, id, Status FROM tblcategory";
+    $sql1 = "SELECT AuthorName, id, Status FROM tblauthors";
 
     $query = $dbh->query($sql);
     $query1 = $dbh->query($sql1);
@@ -74,24 +74,26 @@ if (strlen($_SESSION['alogin']) == 0) {
                         <label for="inputState" class="form-label required">Categorie</label>
                         <select name="cat" id="inputState" class="form-select" required="required">
                             <option value="" selected disabled>Choose...</option>
-                            <?php foreach ($results as $result) : ?>
-                                <option value="<?php echo $result->id; ?>"><?php echo $result->CategoryName; ?></option>
-                            <?php endforeach; ?>
+                            <?php foreach ($results as $result) : if ($result->Status === 1) : ?>
+                                <option value="<?php echo $result->id; ?>"><?php
+                                    echo $result->CategoryName; ?></option>
+                            <?php endif; endforeach; ?>
                         </select>
                     </div>
                     <div class="mb-3">
                         <label for="inputState" class="form-label required">Auteur</label>
                         <select name="auteur" id="inputState" class="form-select" required="required">
                             <option value="" selected disabled>Choose...</option>
-                            <?php foreach ($results1 as $result) : ?>
+                            <?php foreach ($results1 as $result) : if ($result->Status === 1) : ?>
                                 <option value="<?php echo $result->id; ?>"><?php echo $result->AuthorName; ?></option>
-                            <?php endforeach; ?>
+                            <?php endif; endforeach; ?>
                         </select>
                     </div>
                     <div class="mb-3">
                         <label for="inputText" class="form-label required">ISBN</label>
-                        <input type="number" class="form-control" name="isbn" id="inputText" aria-describedby="emailHelp"
-                        required>
+                        <input type="number" class="form-control" name="isbn" id="inputText"
+                               aria-describedby="emailHelp"
+                               required>
                         <div id="passwordHelpBlock" class="form-text">
                             Le numero ISBN doit etre unique
                         </div>
@@ -117,4 +119,4 @@ if (strlen($_SESSION['alogin']) == 0) {
 
     </html>
     <?php verifSucces();
-}?>
+} ?>

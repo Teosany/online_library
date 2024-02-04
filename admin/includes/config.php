@@ -17,25 +17,29 @@ catch (PDOException $e)
 }
 
 function succesOrNot () {
+    global $query;
+    global $dbh;
+    global $success;
+
     if ($query === false) {
-        $_SESSION['addAuthor'] = "Error: " . $dbh->error;
+        $_SESSION['successOrNot'] = "Error: " . $dbh->error;
     } else {
-        $_SESSION['addAuthor'] = 1;
+        $_SESSION['successOrNot'] = 1;
     }
 }
 
 function verifSucces () {
-    if (isset($_SESSION['addAuthor'])) {
-        if ($_SESSION['addAuthor'] === 1) {
-            $_SESSION['addAuthor'] = 2;
-        } elseif ($_SESSION['addAuthor'] === 2) {
+    if (isset($_SESSION['successOrNot'])) {
+        if ($_SESSION['successOrNot'] === 1) {
+            $_SESSION['successOrNot'] = 2;
+        } elseif ($_SESSION['successOrNot'] === 2) {
             echo('<script>succes();</script>');
-            $_SESSION['addAuthor'] = '';
-        } elseif ($_SESSION['addAuthor'] === '') {
-            $_SESSION['addAuthor'] = '';
+            $_SESSION['successOrNot'] = '';
+        } elseif ($_SESSION['successOrNot'] === '') {
+            $_SESSION['successOrNot'] = '';
         } else {
             echo('<script>window.addEventListener("load", insucces);</script>');
-            $_SESSION['addAuthor'] = '';
+            $_SESSION['successOrNot'] = '';
         }
     }
 }

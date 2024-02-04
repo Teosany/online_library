@@ -27,6 +27,9 @@ if (strlen($_SESSION['alogin']) == 0) {
 
         $sql = "UPDATE tblcategory SET CategoryName = '$titre', Status = '$button' WHERE id = '$id'";
         $query = $dbh->query($sql);
+
+        succesOrNot();
+        header('location:manage-categories.php');
     }
 
     $sql = "SELECT id, CategoryName, Status, CreationDate, UpdationDate FROM tblcategory";
@@ -140,4 +143,5 @@ if (strlen($_SESSION['alogin']) == 0) {
     </body>
 
     </html>
-<?php } ?>
+<?php verifSucces();
+} ?>

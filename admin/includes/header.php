@@ -33,17 +33,10 @@
                     <a href="#" aria-expanded="false" class="nav-link dropdown-toggle" id="ddlmenuItem" role="button" data-bs-toggle="dropdown"> Sorties</a>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="ddlmenuItem">
                         <li><a class="dropdown-item" href="add-issue-book.php">Ajouter une sortie</a></li>
-                        <li><a class="dropdown-item" href="manage-issue-book.php">Gérer les sorties</a></li>
+                        <li><a class="dropdown-item" href="manage-issued-books.php">Gérer les sorties</a></li>
                     </ul>
                 </li>
-                <li class="nav-item dropdown">
-                    <a href="#" aria-expanded="false" class="nav-link dropdown-toggle" id="ddlmenuItem" role="button" data-bs-toggle="dropdown"> Lecteurs</a>
-                    <ul class="dropdown-menu" role="menu" aria-labelledby="ddlmenuItem">
-                        <li><a class="dropdown-item" href="add-category.php">Ajouter un lecteur</a></li>
-                        <li><a class="dropdown-item" href="manage-categories.php">Gérer les lecteurs</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item"><a class="nav-link" href="reg-students.php">Lecteurs</a></li>
+                <li class="nav-item"><a class="nav-link" href="reg-readers.php">Lecteurs</a></li>
                 <li class="nav-item"><a class="nav-link" href="change-password.php">Modifier le mot de passe</a></li>
             </ul>
         </div>

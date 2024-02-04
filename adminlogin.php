@@ -30,7 +30,7 @@ if (TRUE === isset($_POST['alogin'])) {
         echo "<script>alert('Code de vérification incorrect')</script>";
     } else {
         $emailid = $_POST['emailid'];
-        $sql = "SELECT AdminEmail, Password FROM admin WHERE UserName = :emailid";
+        $sql = "SELECT AdminEmail, Password FROM admin WHERE AdminEmail = :emailid";
         $query = $dbh->prepare($sql);
         $query->bindParam(':emailid', $emailid, PDO::PARAM_STR);
         $query->execute();

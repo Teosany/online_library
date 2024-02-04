@@ -32,7 +32,7 @@ if (strlen($_SESSION['alogin']) == 0) {
     $query = $dbh->query($sql);
     $results0 = $query->fetchAll(PDO::FETCH_ASSOC);
 
-    $sql = "SELECT BookName, BookId FROM tblissuedbookdetails left outer JOIN tblbooks ON BookId = ISBNNumber";
+    $sql = "SELECT BookName, BookId FROM tblissuedbookdetails ti left outer JOIN tblbooks tb ON BookId = tb.id";
     $query = $dbh->query($sql);
     $results1 = $query->fetchAll(PDO::FETCH_ASSOC);
 
@@ -51,9 +51,6 @@ if (strlen($_SESSION['alogin']) == 0) {
     $sql = "SELECT CategoryName FROM tblcategory";
     $query = $dbh->query($sql);
     $results5 = $query->fetchAll(PDO::FETCH_ASSOC);
-
-    error_log(print_r($results1, true));
-
     ?>
     <!DOCTYPE html>
     <html lang="FR">
@@ -136,7 +133,7 @@ if (strlen($_SESSION['alogin']) == 0) {
                     </li>
                 </ul>
             </div>
-            <div class="tab-content" id="myTabContent">
+            <div class="tab-content ms-3" id="myTabContent">
                 <div class="tab-pane fade show active" id="nombreBooks-tab-pane" role="tabpanel"
                      aria-labelledby="nombreBooks-tab"
                      tabindex="0">

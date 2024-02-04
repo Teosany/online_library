@@ -35,7 +35,7 @@ async function checkId(id) {
     if (id !== '') {
         $.ajax({
             type: 'POST',
-            url: 'get_reader.php',
+            url: 'get_reader&book.php',
             data: {id: id}
         }).done(function (msg) {
             messageMsg('#messageId', msg, 'Utilisateur introuvable')
@@ -49,24 +49,32 @@ async function checkIsbn(isbn) {
     if (isbn !== '') {
         $.ajax({
             type: 'POST',
-            url: 'get_reader.php',
+            url: 'get_reader&book.php',
             data: {isbn: isbn}
         }).done(function (msg) {
             messageMsg('#messageIsbn', msg, 'ISBN introuvable')
         })
     } else {
+        console.log(isbn)
         $(messageIsbn).addClass("d-none")
     }
 }
 
 function messageMsg(messageId, msg, error) {
-    console.log(msg)
     if (msg !== '0') {
-        $(messageId).removeClass("d-none alert-danger")
-        $(messageId).addClass("alert-primary")
-        $(messageId).text(msg)
+        if (msg == '-1') {
+            $(messageId).removeClass("d-none alert-primary")
+            $(messageId).addClass("alert-danger")
+            $(messageId).text('Utilisateur bloqué ou supprimé')
 
-        $("#button").removeClass("disabled").attr("disabled", false);
+            $("#button").addClass("disabled").attr("disabled", true);
+        } else {
+            $(messageId).removeClass("d-none alert-danger")
+            $(messageId).addClass("alert-primary")
+            $(messageId).text(msg)
+
+            $("#button").removeClass("disabled").attr("disabled", false);
+        }
     } else {
         $(messageId).removeClass("d-none alert-primary")
         $(messageId).addClass("alert-danger")

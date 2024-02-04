@@ -1,57 +1,150 @@
 <?php
-// On démarre ou on récupère la session courante
+global $dbh;
 session_start();
-
-// On inclue le fichier de configuration et de connexion à la base de données
 include('includes/config.php');
 
-// Si l'utilisateur n'est logué ($_SESSION['alogin'] est vide)
-// On le redirige vers la page d'accueil
-// Sinon on affiche la liste des lecteurs de la table tblreaders
+if (strlen($_SESSION['alogin']) == 0) {
+    header('location:../index.php');
+} else {
+    if (isset($_POST['active']) || isset($_POST['inactive']) || isset($_POST['del'])) {
+        if (isset($_POST['active'])) {
+            $status = 1;
+            $id = $_POST['active'];
+        } elseif ($_POST['inactive']) {
+            $status = 0;
+            $id = $_POST['inactive'];
+        } else {
+            $status = 2;
+            $id = $_POST['del'];
+        }
 
-// Lors d'un click sur un bouton "inactif", on récupère la valeur de l'identifiant
-// du lecteur dans le tableau $_GET['inid']
-// et on met à jour le statut (0) dans la table tblreaders pour cet identifiant de lecteur
+        $sql = "UPDATE tblreaders SET Status = ? WHERE id = ?";
+        $query = $dbh->prepare($sql);
+        $query->execute([$status, $id]);
 
-// Lors d'un click sur un bouton "actif", on récupère la valeur de l'identifiant
-// du lecteur dans le tableau $_GET['id']
-// et on met à jour le statut (1) dans  table tblreaders pour cet identifiant de lecteur
+        succesOrNot();
+        header('location:reg-readers.php');
+    }
+    $sql = "SELECT ReaderId, FullName, EmailId, MobileNumber, RegDate, Status, id 
+            FROM tblreaders ORDER BY CASE 
+            WHEN Status = 1 THEN 0 
+            WHEN Status = 0 THEN 1 
+            WHEN Status = 2 THEN 3 
+            END";
 
-// Lors d'un click sur un bouton "supprimer", on récupère la valeur de l'identifiant
-// du lecteur dans le tableau $_GET['del']
-// et on met à jour le statut (2) dans la table tblreaders pour cet identifiant de lecteur
+    $query = $dbh->query($sql);
+    $results = $query->fetchAll(PDO::FETCH_OBJ);
+    ?>
 
-// On récupère tous les lecteurs dans la base de données
-?>
+    <!DOCTYPE html>
+    <html lang="FR">
 
-<!DOCTYPE html>
-<html lang="FR">
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <title>Gestion de bibliothèque en ligne | Reg lecteurs</title>
-    <!-- BOOTSTRAP CORE STYLE  -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <!-- FONT AWESOME STYLE  -->
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
-    <!-- CUSTOM STYLE  -->
-    <link href="assets/css/style.css" rel="stylesheet" />
-</head>
+        <title>Gestion de bibliothèque en ligne | Gestion du registre des lecteurs</title>
+        <!-- BOOTSTRAP CORE STYLE  -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+        <!-- FONT AWESOME STYLE  -->
+        <link href="assets/css/font-awesome.css" rel="stylesheet"/>
+        <!-- CUSTOM STYLE  -->
+        <link href="assets/css/style.css" rel="stylesheet"/>
+    </head>
 
-<body>
-    <!--On inclue ici le menu de navigation includes/header.php-->
+    <body class="d-flex flex-column min-vh-100">
     <?php include('includes/header.php'); ?>
-    <!-- Titre de la page (Gestion du Registre des lecteurs) -->
-
-    <!--On insère ici le tableau des lecteurs.
-       On gère l'affichage des boutons Actif/Inactif/Supprimer en fonction de la valeur du statut du lecteur -->
-
-    <!-- CONTENT-WRAPPER SECTION END-->
+    <div id="succes" class="alert alert-success d-none" role="alert">Succes!</div>
+    <div id="insucces" class="alert alert-danger d-none" role="alert">Insucces!</div>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-14 col-sm-7 col-md-7 col-lg-7 offset-md-3">
+                <div class="mb-3 mt-3">
+                    <h3>GESTION DU REGISTRE DES LECTEURS</h3>
+                </div>
+                <hr>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                Registre lecteurs
+            </div>
+            <div class="card-body">
+                <div class="table-responsive-md">
+                    <table class="table table-sm table-striped table-hover">
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">ID Lecteurs</th>
+                            <th scope="col">Nom</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Portable</th>
+                            <th scope="col">Date de reg</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php
+                        $i = 1;
+                        foreach ($results as $result) : ?>
+                            <form method="POST" action="reg-readers.php">
+                                <?php if ($result->Status == 2): ?>
+                                <tr class="table-danger"> <?php
+                                    elseif ($result->Status == 1) : ?>
+                                <tr class="table-success"> <?php
+                                    else : ?>
+                                <tr class="table-warning"> <?php
+                                    endif; ?>
+                                    <th class="table-light" scope="row"><?php echo $i; ?></th>
+                                    <td><?php echo $result->ReaderId; ?></td>
+                                    <td><?php echo $result->FullName; ?></td>
+                                    <td><?php echo $result->EmailId; ?></td>
+                                    <td><?php echo $result->MobileNumber; ?></td>
+                                    <td><?php echo $result->RegDate; ?></td>
+                                    <?php if ($result->Status == 2): ?>
+                                    <td> <?php echo "Supprimé(e)";
+                                        elseif ($result->Status == 1) : ?>
+                                    <td> <?php echo 'Actif';
+                                        else : ?>
+                                    <td> <?php echo 'Bloqué(e)';
+                                        endif; ?></td>
+                                    <td>
+                                        <?php if ($result->Status == 1) : ?>
+                                            <button type="submit" name="inactive" value="<?php echo $result->id ?>"
+                                                    class="btn btn-warning btn-sm">
+                                                Inactif
+                                            </button>
+                                        <?php elseif ($result->Status == 0) : ?>
+                                            <button type="submit" name="active" value="<?php echo $result->id ?>"
+                                                    class="btn btn-primary btn-sm">
+                                                &nbspActif &nbsp
+                                            </button>
+                                        <?php endif; ?>
+                                        <?php if ($result->Status == 0 || $result->Status == 1) : ?>
+                                            <button type="submit" name="del" value="<?php echo $result->id ?>"
+                                                    class="btn btn-danger btn-sm">
+                                                Supprimer
+                                            </button>
+                                        <?php endif; ?>
+                                    </td>
+                                </tr>
+                            </form>
+                            <?php $i++; endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
     <?php include('includes/footer.php'); ?>
-    <!-- FOOTER SECTION END-->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>-->
-</body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+            integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+            crossorigin="anonymous"></script>
+    </body>
 
-</html>
+    </html>
+    <?php verifSucces();
+} ?>

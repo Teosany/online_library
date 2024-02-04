@@ -10,7 +10,13 @@ if (strlen($_SESSION['alogin']) == 0) {
     if (TRUE === isset($_POST['add'])) {
         $name = $_POST['name'];
 
-        $sql = "INSERT INTO tblauthors (AuthorName) VALUES ('$name')";
+        if (($_POST['status'] == 'active')) {
+            $status = 1;
+        } else {
+            $status = 0;
+        }
+
+        $sql = "INSERT INTO tblauthors (AuthorName, Status) VALUES ('$name', '$status')";
 
         $query = $dbh->query($sql);
 
@@ -52,6 +58,23 @@ if (strlen($_SESSION['alogin']) == 0) {
                     <div class="mb-4">
                         <label for="inputText" class="form-label"><h5>Nom</h5></label>
                         <input type="text" class="form-control" name="name" id="inputText" aria-describedby="emailHelp" required>
+                    </div>
+                    <div class="mb-3">
+                        <h5>Statut</h5>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="status" id="flexRadioDefault1" value="active"
+                               checked>
+                        <label class="form-check-label" for="flexRadioDefault1">
+                            Active
+                        </label>
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input class="form-check-input" type="radio" name="status" id="flexRadioDefault2"
+                               value="inactive">
+                        <label class="form-check-label" for="flexRadioDefault2">
+                            Inactive
+                        </label>
                     </div>
                     <button type="submit" name="add" class="btn btn-primary">Creer</button>
                 </form>

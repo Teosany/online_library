@@ -25,7 +25,7 @@ if (strlen($_SESSION['rdid']) == 0) {
 } else {
     $user = $_SESSION['rdid'];
 
-    $sql = "SELECT * FROM tblissuedbookdetails WHERE ReaderID = :user";
+    $sql = "SELECT * FROM tblissuedbookdetails ti JOIN tblbooks tb ON tb.id = ti.BookId WHERE ReaderID = :user";
     $query = $dbh->prepare($sql);
     $query->bindParam(':user', $user, PDO::PARAM_STR);
     $query->execute();
@@ -95,7 +95,7 @@ if (strlen($_SESSION['rdid']) == 0) {
                      tabindex="0">
                     <p></p>
                     <?php foreach ($results as $result) : ?>
-                        <p class="h5"><?php echo $result->BookId ?></p>
+                        <p class="h5"><?php echo $result->BookName ?></p>
                     <?php endforeach; ?>
                 </div>
                 <div class="tab-pane fade active" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab"
@@ -103,7 +103,7 @@ if (strlen($_SESSION['rdid']) == 0) {
                     <p></p>
                     <?php foreach ($results as $result) : ?>
                         <p class="h5"><?php if ($result->ReturnStatus === 0) :
-                                echo $result->BookId;
+                                echo $result->BookName;
                             endif ?></p>
                     <?php endforeach; ?>
                 </div>

@@ -21,20 +21,13 @@ if (strlen($_SESSION['rdid']) == 0) {
     header('location:index.php');
 } else {
     $user = $_SESSION['rdid'];
-
-    $sql = "SELECT ReaderID, BookId, BookName, IssuesDate, ReturnDate FROM tblissuedbookdetails
-    JOIN tblbooks ON BookId = ISBNNumber WHERE ReaderID = :user";
+    $sql = "SELECT ReaderID, BookId, BookName, IssuesDate, ReturnDate, ISBNNumber FROM tblissuedbookdetails
+    JOIN tblbooks tb ON BookId = tb.id WHERE ReaderID = :user";
     $query = $dbh->prepare($sql);
     $query->bindParam(':user', $user, PDO::PARAM_STR);
     $query->execute();
 
     $results = $query->fetchAll(PDO::FETCH_OBJ);
-
-    foreach ($results as $result) {
-        if ($result->ReturnDate == '') {
-            error_log('234');
-        }
-    }
     ?>
 
     <!DOCTYPE html>
@@ -81,7 +74,7 @@ if (strlen($_SESSION['rdid']) == 0) {
                 <tr>
                     <th scope="row"><?php echo $i;?></th>
                     <td><?php echo $result->BookName;?></td>
-                    <td><?php echo $result->BookId;?></td>
+                    <td><?php echo $result->ISBNNumber;?></td>
                     <td><?php echo $result->IssuesDate;?></td>
                     <?php if($result->ReturnDate != "") : ?><td class="table-success"><?php echo $result->ReturnDate; else : ?><td class="table-danger"><?php echo 'Non retourne'; endif?></td>
                 </tr>

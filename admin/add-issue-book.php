@@ -11,8 +11,8 @@ if (strlen($_SESSION['alogin']) == 0) {
         $name = strtoupper($_POST['name']);
         $isbn = $_POST['isbn'];
 
-        $sql = "INSERT INTO tblissuedbookdetails (ReaderID, BookId) 
-        SELECT '$name', id AS BookId FROM tblbooks WHERE ISBNNumber = '$isbn'";
+        $sql = "INSERT INTO tblissuedbookdetails (ReaderID, BookId, ReturnStatus) 
+        SELECT '$name', id, '0' FROM tblbooks WHERE ISBNNumber = '$isbn'";
         $query = $dbh->query($sql);
 
         succesOrNot();
@@ -59,8 +59,8 @@ if (strlen($_SESSION['alogin']) == 0) {
                         <div id="messageId" class="alert alert-primary d-none" role="alert"></div>
                     </div>
                     <div class="mb-2">
-                        <label for="inputText" class="form-label required">ISBN</label>
-                        <input type="number" class="form-control" name="isbn" id="inputText" aria-describedby="emailHelp"
+                        <label for="inputInt" class="form-label required">ISBN</label>
+                        <input type="tel" class="form-control" name="isbn" id="inputInt"
                         required onkeyup="checkIsbn(this.value)">
                     </div>
                     <div class="mb-4">

@@ -32,18 +32,20 @@ if (strlen($_SESSION['alogin']) == 0) {
             $query->bindParam(':id', $id, PDO::PARAM_INT);
             $query->execute();
         }
+        succesOrNot();
+        header('location:manage-books.php');
     }
 
 
     $sql = "SELECT b.id, Bookname, CategoryName, CatId, AuthorId, AuthorName, ISBNNumber, BookPrice FROM tblbooks b 
-    JOIN tblcategory c ON CatId = c.id
-    JOIN tblauthors a ON AuthorId = a.id";
+    LEFT JOIN tblcategory c ON CatId = c.id
+    LEFT JOIN tblauthors a ON AuthorId = a.id";
 
     $query = $dbh->query($sql);
     $results = $query->fetchAll(PDO::FETCH_OBJ);
 
-    $sql1 = "SELECT CategoryName, id FROM tblcategory";
-    $sql2 = "SELECT AuthorName, id FROM tblauthors";
+    $sql1 = "SELECT CategoryName, id, Status FROM tblcategory";
+    $sql2 = "SELECT AuthorName, id, Status FROM tblauthors";
 
     $query1 = $dbh->query($sql1);
     $query2 = $dbh->query($sql2);
@@ -84,86 +86,93 @@ if (strlen($_SESSION['alogin']) == 0) {
                 <hr>
             </div>
         </div>
-        <div class="row">
-                <table class="table table-striped table-hover">
-                    <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Titre</th>
-                        <th scope="col">Catégorie</th>
-                        <th scope="col">Nom de l'auteur</th>
-                        <th scope="col">ISBN</th>
-                        <th scope="col">Prix</th>
-                        <th scope="col">Action</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <?php
-                    $i = 1;
-                    foreach ($results as $result) : ?>
-                        <form method="POST" action="manage-books.php"
-                              onsubmit="return getContent(<?php echo $result->id ?>)">
-                            <tr>
-                                <th scope="row"><?php echo $i; ?></th>
-                                <td contenteditable="true" onkeydown="preventDef(event, 50)"
-                                    id="titre<?php echo $result->id ?>"
-                                    class="content" type="radio"><?php echo $result->Bookname; ?><i
-                                            class="fa-regular fa-pen-to-square"></i></td>
-                                <td>
-                                    <select name="cat" id="inputState" class="form-select" required="required">
-                                        <option value="<?php echo $result->CatId; ?>"
-                                                selected><?php echo $result->CategoryName; ?>
-                                        </option>
-                                        <?php foreach ($results1 as $result1) : if ($result->CategoryName !== $result1->CategoryName) : ?>
-                                            <option value="<?php echo $result1->id; ?>"><?php echo $result1->CategoryName; ?></option>
-                                        <?php endif; endforeach; ?>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select name="auteur" id="inputState" class="form-select" required="required">
-                                        <option value="<?php echo $result->AuthorId; ?>"
-                                                selected><?php echo $result->AuthorName; ?>
-                                        </option>
-                                        <?php foreach ($results2 as $result2) : if ($result->AuthorName !== $result2->AuthorName) : ?>
-                                            <option value="<?php echo $result2->id; ?>"><?php echo $result2->AuthorName; ?></option>
-                                        <?php endif; endforeach; ?>
-                                    </select>
-                                </td>
-                                <td onkeydown="preventDef(event, 17)" contenteditable="true"
-                                    id="titre_1<?php echo $result->id ?>"
-                                    class="content onlyInt" type="radio"> <?php echo $result->ISBNNumber; ?>
-                                </td>
-                                <td onkeydown="preventDef(event, 3)" contenteditable="true"
-                                    id="titre_2<?php echo $result->id ?>"
-                                    class="content onlyInt" type="radio"> <?php echo $result->BookPrice; ?>
-                                </td>
-                                <td>
+        <div class="card">
+            <div class="card-header">
+                Livres
+            </div>
+            <div class="card-body">
+                <div class="table-responsive-md">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Titre</th>
+                            <th scope="col">Catégorie</th>
+                            <th scope="col">Nom de l'auteur</th>
+                            <th scope="col">ISBN</th>
+                            <th scope="col">Prix</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php
+                        $i = 1;
+                        foreach ($results as $result) : ?>
+                            <form method="POST" action="manage-books.php"
+                                  onsubmit="return getContent(<?php echo $result->id ?>)">
+                                <tr>
+                                    <th scope="row"><?php echo $i; ?></th>
+                                    <td contenteditable="true" onkeydown="preventDef(event, 50)"
+                                        id="titre<?php echo $result->id ?>"
+                                        class="content" type="radio"><?php echo $result->Bookname; ?><i
+                                                class="fa-regular fa-pen-to-square"></i></td>
+                                    <td>
+                                        <select name="cat" id="inputState" class="form-select" required="required">
+                                            <option value="<?php echo $result->CatId; ?>"
+                                                    selected><?php echo $result->CategoryName; ?>
+                                            </option>
+                                            <?php foreach ($results1 as $result1) : if ($result->CategoryName !== $result1->CategoryName && $result1->Status === 1) : ?>
+                                                <option value="<?php echo $result1->id; ?>"><?php echo $result1->CategoryName; ?></option>
+                                            <?php endif; endforeach; ?>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select name="auteur" id="inputState" class="form-select" required="required">
+                                            <option value="<?php echo $result->AuthorId; ?>"
+                                                    selected><?php echo $result->AuthorName; ?>
+                                            </option>
+                                            <?php foreach ($results2 as $result2) : if ($result->AuthorName !== $result2->AuthorName && $result2->Status === 1) : ?>
+                                                <option value="<?php echo $result2->id; ?>"><?php echo $result2->AuthorName; ?></option>
+                                            <?php endif; endforeach; ?>
+                                        </select>
+                                    </td>
+                                    <td onkeydown="preventDef(event, 17)" contenteditable="true"
+                                        id="titre_1<?php echo $result->id ?>"
+                                        class="content onlyInt" type="radio"> <?php echo $result->ISBNNumber; ?>
+                                    </td>
+                                    <td onkeydown="preventDef(event, 3)" contenteditable="true"
+                                        id="titre_2<?php echo $result->id ?>"
+                                        class="content onlyInt" type="radio"> <?php echo $result->BookPrice; ?>
+                                    </td>
+                                    <td>
                                     <textarea name="cont" id="my-textarea<?php echo $result->id ?>"
                                               style="display:none">
                                     </textarea>
-                                    <textarea name="cont1" id="my-textarea_1<?php echo $result->id ?>"
-                                              style="display:none">
+                                        <textarea name="cont1" id="my-textarea_1<?php echo $result->id ?>"
+                                                  style="display:none">
                                     </textarea>
-                                    <textarea name="cont2" id="my-textarea_2<?php echo $result->id ?>"
-                                              style="display:none">
+                                        <textarea name="cont2" id="my-textarea_2<?php echo $result->id ?>"
+                                                  style="display:none">
                                     </textarea>
-                                    <textarea name="id"
-                                              style="display:none"><?php echo $result->id ?>
+                                        <textarea name="id"
+                                                  style="display:none"><?php echo $result->id ?>
                                     </textarea>
-                                    <button type="submit" name="submit" value="edit"
-                                            class="btn btn-primary btn-sm">
-                                        Editer
-                                    </button>
-                                    <button type="submit" name="submit" value="del"
-                                            class="btn btn-danger btn-sm">
-                                        Supprimer
-                                    </button>
-                                </td>
-                            </tr>
-                        </form>
-                        <?php $i++; endforeach; ?>
-                    </tbody>
-                </table>
+                                        <button type="submit" name="submit" value="edit"
+                                                class="btn btn-primary btn-sm">
+                                            Editer
+                                        </button>
+                                        <button type="submit" name="submit" value="del"
+                                                class="btn btn-danger btn-sm">
+                                            Supprimer
+                                        </button>
+                                    </td>
+                                </tr>
+                            </form>
+                            <?php $i++; endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
     <?php include('includes/footer.php'); ?>
@@ -175,4 +184,5 @@ if (strlen($_SESSION['alogin']) == 0) {
     </body>
 
     </html>
-<?php } ?>
+    <?php verifSucces();
+} ?>

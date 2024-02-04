@@ -18,6 +18,9 @@ if (strlen($_SESSION['alogin']) == 0) {
 
         $sql = "UPDATE tblauthors SET AuthorName = '$titre', Status = '$button' WHERE id = '$id'";
         $query = $dbh->query($sql);
+
+        succesOrNot();
+        header('location:manage-authors.php');
     }
 
     $sql = "SELECT id, AuthorName, Status, CreationDate, UpdationDate FROM tblauthors";
@@ -58,76 +61,88 @@ if (strlen($_SESSION['alogin']) == 0) {
                 <hr>
             </div>
         </div>
-        <table class="table table-striped table-hover">
-            <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Titre</th>
-                <th scope="col">Statut</th>
-                <th scope="col">Cree le</th>
-                <th scope="col">Mise à jour le</th>
-                <th scope="col">Action</th>
-            </tr>
-            </thead>
-            <tbody>
-            <?php
-            $i = 1;
-            foreach ($results as $result) : ?>
-                <form method="POST" action="manage-authors.php" onsubmit="return getContent(<?php echo $result->id ?>)">
-                    <tr>
-                        <th scope="row"><?php echo $i; ?></th>
-                        <td onkeydown="preventDef(event)" contenteditable="true" id="titre<?php echo $result->id ?>"
-                            class="content" type="radio"><?php echo $result->AuthorName; ?></td>
-                        <td>
-                            <?php if ($result->Status == 1) : ?>
-                                <div class="btn-group-vertical" role="group"
-                                     aria-label="Vertical radio toggle button group">
-                                    <input type="radio" class="btn-check" name="vbtn-radio" value="on"
-                                           id="vbtn-radio<?php echo $i; ?>" autocomplete="off" checked>
-                                    <label class="btn btn-outline-success btn-sm"
-                                           for="vbtn-radio<?php echo $i; ?>">Active</label>
-                                    <input type="radio" class="btn-check" name="vbtn-radio" value="off"
-                                           id="vbtn-radio<?php echo $i + 300; ?>" autocomplete="off">
-                                    <label class="btn btn-outline-danger btn-sm"
-                                           for="vbtn-radio<?php echo $i + 300; ?>">Inactive</label>
-                                </div>
-                            <?php else : ?>
-                                <div class="btn-group-vertical" role="group"
-                                     aria-label="Vertical radio toggle button group">
-                                    <input type="radio" class="btn-check" name="vbtn-radio" value="on"
-                                           id="vbtn-radio<?php echo $i; ?>" autocomplete="off">
-                                    <label class="btn btn-outline-success btn-sm"
-                                           for="vbtn-radio<?php echo $i; ?>">Active</label>
-                                    <input type="radio" class="btn-check" name="vbtn-radio" value="off"
-                                           id="vbtn-radio<?php echo $i + 300; ?>" autocomplete="off" checked>
-                                    <label class="btn btn-outline-danger btn-sm"
-                                           for="vbtn-radio<?php echo $i + 300; ?>">Inactive</label>
-                                </div>
-                            <?php endif ?>
-                        </td>
-                        <td><?php echo $result->CreationDate; ?></td>
-                        <td><?php echo $result->UpdationDate; ?></td>
-                        <td>
-                            <textarea name="cont" id="my-textarea<?php echo $result->id ?>" style="display:none"></textarea>
-                            <button type="submit" name="edit" value="<?php echo $result->id ?>"
-                                    class="btn btn-primary btn-sm">
-                                Editer
-                            </button>
-                        </td>
-                    </tr>
-                </form>
-
-                <?php $i++; endforeach; ?>
-            </tbody>
-        </table>
-    </div>
-    <?php include('includes/footer.php'); ?>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script type="text/javascript" src="script.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
-            integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
-            crossorigin="anonymous"></script>
+        <div class="card">
+            <div class="card-header">
+                Auteurs
+            </div>
+            <div class="card-body">
+                <div class="table-responsive-md">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Titre</th>
+                            <th scope="col">Statut</th>
+                            <th scope="col">Cree le</th>
+                            <th scope="col">Mise à jour le</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php
+                        $i = 1;
+                        foreach ($results as $result) : ?>
+                            <form method="POST" action="manage-authors.php"
+                                  onsubmit="return getContent(<?php echo $result->id ?>)">
+                                <tr>
+                                    <th scope="row"><?php echo $i; ?></th>
+                                    <td onkeydown="preventDef(event)" contenteditable="true"
+                                        id="titre<?php echo $result->id ?>"
+                                        class="content" type="radio"><?php echo $result->AuthorName; ?></td>
+                                    <td>
+                                        <?php if ($result->Status == 1) : ?>
+                                            <div class="btn-group-vertical" role="group"
+                                                 aria-label="Vertical radio toggle button group">
+                                                <input type="radio" class="btn-check" name="vbtn-radio" value="on"
+                                                       id="vbtn-radio<?php echo $i; ?>" autocomplete="off" checked>
+                                                <label class="btn btn-outline-success btn-sm"
+                                                       for="vbtn-radio<?php echo $i; ?>">Active</label>
+                                                <input type="radio" class="btn-check" name="vbtn-radio" value="off"
+                                                       id="vbtn-radio<?php echo $i + 300; ?>" autocomplete="off">
+                                                <label class="btn btn-outline-danger btn-sm"
+                                                       for="vbtn-radio<?php echo $i + 300; ?>">Inactive</label>
+                                            </div>
+                                        <?php else : ?>
+                                            <div class="btn-group-vertical" role="group"
+                                                 aria-label="Vertical radio toggle button group">
+                                                <input type="radio" class="btn-check" name="vbtn-radio" value="on"
+                                                       id="vbtn-radio<?php echo $i; ?>" autocomplete="off">
+                                                <label class="btn btn-outline-success btn-sm"
+                                                       for="vbtn-radio<?php echo $i; ?>">Active</label>
+                                                <input type="radio" class="btn-check" name="vbtn-radio" value="off"
+                                                       id="vbtn-radio<?php echo $i + 300; ?>" autocomplete="off"
+                                                       checked>
+                                                <label class="btn btn-outline-danger btn-sm"
+                                                       for="vbtn-radio<?php echo $i + 300; ?>">Inactive</label>
+                                            </div>
+                                        <?php endif ?>
+                                    </td>
+                                    <td><?php echo $result->CreationDate; ?></td>
+                                    <td><?php echo $result->UpdationDate; ?></td>
+                                    <td>
+                                        <textarea name="cont" id="my-textarea<?php echo $result->id ?>"
+                                                  style="display:none"></textarea>
+                                        <button type="submit" name="edit" value="<?php echo $result->id ?>"
+                                                class="btn btn-primary btn-sm">
+                                            Editer
+                                        </button>
+                                    </td>
+                                </tr>
+                            </form>
+                            <?php $i++; endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <?php include('includes/footer.php'); ?>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <script type="text/javascript" src="script.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+                integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+                crossorigin="anonymous"></script>
     </body>
 
     </html>
-<?php } ?>
+    <?php verifSucces();
+} ?>

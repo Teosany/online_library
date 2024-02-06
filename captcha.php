@@ -23,5 +23,4 @@ $font_size = 14;
 imagestring($image, $font_size, 5, 5, $text, $white);
 
 // On cr�e une image jpeg � partir de l'objet image cr�� ci-dessus
-imagejpeg($image, null, 80); 
-?>
+imagejpeg($image, null, 80);

@@ -46,3 +46,4 @@ function verifSucces () {
 
 
 ?>
+<!--➜  online_library git:(main) export DATABASE_URL=mysql://<root>:<i26EGaqU1tKSFjO34uvCgm5Wf78r09zD>@<fra1.clusters.zeabur.com>:<30388>/<zeabur>-->

@@ -1,4 +1,6 @@
 <?php
+header( "Content-type: image/jpeg" );
+
 session_start();
 
 $text = rand(10000,99999);

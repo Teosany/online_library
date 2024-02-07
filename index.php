@@ -123,6 +123,7 @@ if (TRUE === isset($_POST['login'])) {
         crossorigin="anonymous"></script></body>
 
 </html>
-<?php ini_set("display_errors", "On"); error_reporting(E_ALL);
+<?php
+ini_set("display_errors", "On"); error_reporting(E_ALL);
 
 phpinfo();

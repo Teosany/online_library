@@ -1,9 +1,9 @@
 <?php
 // Configuration de la connexion
-define('DB_HOST','fra1.clusters.zeabur.com:31929');
-define('DB_USER','root');
-define('DB_PASS','L7xbU0JPGQtW3VwCv5F9D842Yrnpe61q');
-define('DB_NAME','library');
+const DB_HOST = 'fra1.clusters.zeabur.com:31929';
+const DB_USER = 'root';
+//const DB_PASS = 'L7xbU0JPGQtW3VwCv5F9D842Yrnpe61q';
+const DB_NAME = 'library';
 
 try
 {

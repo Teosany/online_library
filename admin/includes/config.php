@@ -1,10 +1,9 @@
 <?php
-//// Configuration de la connexion
-//define('DB_HOST','localhost');
-//define('DB_USER','root');
-//define('DB_PASS','root');
-//define('DB_NAME','library');
-//
+define('DB_HOST','fra1.clusters.zeabur.com:31929');
+define('DB_USER','root');
+define('DB_PASS','L7xbU0JPGQtW3VwCv5F9D842Yrnpe61q');
+define('DB_NAME','library');
+
 //try
 //{
 //    // Connexion � la base
@@ -43,6 +42,3 @@ function verifSucces () {
         }
     }
 }
-
-
-?>

@@ -1,8 +1,8 @@
 <?php
-define('DB_HOST','localhost');
-define('DB_USER','root');
-define('DB_PASS','root');
-define('DB_NAME','library');
+const DB_HOST = 'localhost';
+const DB_USER = 'root';
+const DB_PASS = 'root';
+const DB_NAME = 'library';
 
 try
 {

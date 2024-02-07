@@ -18,3 +18,7 @@ $font_size = 14;
 imagestring($image, $font_size, 5, 5, $text, $white);
 
 imagejpeg($image, null, 80);
+imagedestroy( $image );
+$i = ob_get_clean();
+
+echo "<img src='data:image/jpeg;base64," . base64_encode( $i )."'>";

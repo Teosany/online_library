@@ -55,7 +55,7 @@ if (TRUE === isset($_POST['enrgister'])) {
         $sql = "INSERT INTO tblreaders (ReaderId, FullName, EmailId, MobileNumber, Password, Status) 
         VALUES ('$ressourceIncr', :name, :email, :tel, '$password', '$status')";
 
-        $query = $dbh->prepare($DATABASE_URL);
+        $query = $dbh->prepare($sql);
         $query->bindParam(':name', $name, PDO::PARAM_STR);
         $query->bindParam(':email', $email, PDO::PARAM_STR);
         $query->bindParam(':tel', $tel, PDO::PARAM_INT);

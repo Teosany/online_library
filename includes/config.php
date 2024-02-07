@@ -7,8 +7,7 @@ define('DB_NAME','library');
 
 try
 {
-//    $dbh = new PDO("mysql:host=".DB_HOST.";dbname=".DB_NAME,DB_USER, DB_PASS);
-    $dbh = new PDO(${asd});
+    $dbh = new PDO("mysql:host=".DB_HOST.";dbname=".DB_NAME,DB_USER, DB_PASS);
 }
 catch (PDOException $e)
 {

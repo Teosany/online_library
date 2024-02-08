@@ -1,5 +1,5 @@
 # Online Library 
-Online library developed as part of php/js/sqlbootstrap learning experience
+Online library developed as part of php/js/sql/bootstrap learning experience
 
 View Live: https://online-lib.zeabur.app/
 

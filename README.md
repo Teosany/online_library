@@ -2,7 +2,7 @@
 Online library developed as part of php/js/sql/bootstrap learning experience
 
 View Live: https://online-lib.zeabur.app/
-
+ 
 Online library includes all the basic required pages for operation and functional state for user and administrator.
 <img width="1440" alt="Capture d’écran 2024-02-08 à 9 16 54 AM" src="https://github.com/Teosany/online_library/assets/141288087/a93ec114-44cf-4e11-9fdb-eeb4bf0cd911">
 <img width="1439" alt="Capture d’écran 2024-02-08 à 9 17 56 AM" src="https://github.com/Teosany/online_library/assets/141288087/84c45f6a-533d-4cb0-8cfb-de905a260068">
